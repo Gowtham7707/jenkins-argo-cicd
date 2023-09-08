@@ -1,0 +1,51 @@
+pipeline {
+    agent any 
+
+    stages {
+
+        stage('Cleanup workspace') {
+
+            steps {
+                
+                script { 
+
+                     cleanWs()
+                }
+            }
+        }
+        
+        stage('checkout SCM') {
+
+            steps {
+                
+                script { 
+                   git credentialsId: 'gitHub',
+                   url: 'https://github.com/Gowtham7707/jenkins-argo-cicd.git',
+                   branch: 'master'
+                    
+                }
+            }
+        }
+        
+        stage('Build and Push Docker Image') {
+            
+            environment {
+                
+                DOCKER_IMAGE = "gowthamc121/jenkins-argo-cicd:${BUILD_NUMBER}"
+                REGISTRY_CREDENTIALS = credentials('docker')
+            }
+
+            steps {
+                
+                script { 
+                    
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                    docker.withRegistry('', "docker") {
+                dockerImage.push()
+            }
+                 
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "jenkins-runner.jobs": {
+        "jenkins-argo-cicd-project": {
+            "isDefault": true,
+              "runWith": "jenkins-master",
+              "name": "jenkins-argo-cicd-project"  
+        }
+    },
+
+    "jenkins-runner.hostConfigs": {
+        "jenkins-master": {
+            "url": "http://13.211.29.220:8080/",
+            "user": "gowtham",
+            "password": "Cgr@12345",
+            "useCrumbIssuer":
+        }
+    }
+}

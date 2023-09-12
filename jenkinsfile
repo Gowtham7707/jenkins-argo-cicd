@@ -47,5 +47,19 @@ pipeline {
                 }
             }
         }
+      stage('Update the deployment yaml file'){
+         steps {
+           script{
+
+                 sh """
+                    cat deployment.yaml
+                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" deployment.yaml
+                    cat deployment.yaml
+                 """
+
+
+           }
+         }
+      }
     }
 }

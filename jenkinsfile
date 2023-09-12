@@ -17,7 +17,7 @@ pipeline {
        stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t gowthamc121/$JOB_NAME:v1.$BUILD_NAME .'
+                    sh 'docker build -t gowthamc121/$JOB_NAME:v1.${BUILD_NAME} .'
                 }
             }
         }
@@ -29,9 +29,29 @@ pipeline {
             steps{
                 script{
                   docker.withRegistry('https://index.docker.io/v1/', "docker") {
-               sh 'docker push gowthamc121/$JOB_NAME:v1.$BUILD_NAME'
+               sh 'docker push gowthamc121/$JOB_NAME:v1.${BUILD_NAME}'
             }
-    
+ 
+                   
+                }
+            }
+        }
+        // stage('Delete the Docker Images'){
+        //     steps{
+        //         script{
+        //             sh 'docker rmi gowthamc121/$JOB_NAME:v1.$BUILD_NAME'
+        //         }
+        //     }
+        // }
+        stage('updating the kubernete deployment file'){
+            steps{
+                script{
+                    
+                    sh '''
+                    cat deployment.yaml
+                    sed -i "s/replaceImageTag/v1.${BUILD_NUMBER}/g" deployment.yaml
+                    cat deployment.yaml
+                    '''
                 }
             }
         }

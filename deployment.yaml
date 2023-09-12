@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: muapp
-        image: gowthamc121/jenkins-argo-cicd:replaceImageTag
+        image: gowthamc121/jenkins-argo-cicd:v1.
         resources:
           limits:
             memory: "128Mi"
